@@ -1,11 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import AeroButton from './src/components/AeroButton'; // Importando o componente
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      {/* Botão ativo (ícone azul destacado) */}
+      <AeroButton name="home" focused={true} />
+
+      {/* Botão inativo */}
+      <AeroButton name="search" focused={false} />
     </View>
   );
 }
@@ -13,8 +17,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#CDE5FF', // Fundo claro estilo Frutiger Aero para testar o efeito de transparência
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 15,
   },
 });
