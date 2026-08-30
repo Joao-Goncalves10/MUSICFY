@@ -4,7 +4,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function AeroButton({ name, focused }) {
+/**
+ * Componente de botão com design Aero/Glassmorphism
+ * @param {string} name - Nome do ícone Ionicons
+ * @param {boolean} focused - Se o botão está em foco/ativo
+ * @param {Function} onPress - Callback ao pressionar
+ */
+export default function AeroButton({ name, focused, onPress }) {
   return (
     <View style={styles.container}>
       {/* Bordas e brilho externo com gradiente */}
