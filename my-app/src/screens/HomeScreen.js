@@ -8,6 +8,7 @@ import {
   TextInput,
   SafeAreaView,
   StatusBar,
+  Platform,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -25,26 +26,25 @@ import {
 
 /**
  * Paleta de Cores - Design System Aero & Frutiger
- * Inspirado em estilos Y2K futuristas com neons vibrantes
  */
 const PALETTE = {
-  azulAero: '#0096FF',        // Cor primária
-  verdeLime: '#7CFF00',       // Destaque e ações
-  roxoOrbital: '#915BFF',     // Acentos secundários
-  rosaNeon: '#FF4FD8',        // Interações (likes)
-  azulCeu: '#00C2FF',         // Badges
-  aquaGlow: '#00FFD1',        // Gradientes
-  azulEscuro: '#0D1B2A',      // Textos primários
-  cinzaAero: '#334155',       // Textos secundários
-  cinzaMedio: '#64748B',      // Placeholders
-  cinzaClaro: '#CBD5E1',      // Bordas
-  cinzaSuave: '#F1F5F9',      // Fundos suaves
-  branco: '#FFFFFF',          // Branco puro
-  glassBg: 'rgba(255, 255, 255, 0.75)',     // Glass effect background
-  glassBorder: 'rgba(255, 255, 255, 0.9)',  // Glass effect border
+  azulAero: '#0096FF',
+  azulAeroEscuro: '#0055A5',
+  verdeLime: '#7CFF00',
+  roxoOrbital: '#915BFF',
+  rosaNeon: '#FF4FD8',
+  azulCeu: '#00C2FF',
+  aquaGlow: '#00FFD1',
+  azulEscuro: '#0D1B2A',
+  cinzaAero: '#334155',
+  cinzaMedio: '#132846',
+  cinzaClaro: '#CBD5E1',
+  cinzaSuave: '#F1F5F9',
+  branco: '#FFFFFF',
+  glassBg: 'rgba(242, 253, 255, 0.6)',
+  glassBorder: 'rgba(223, 246, 255, 0.9)',
 };
 
-// Dados Mockados de Exemplo
 const FEATURED_ALBUM = {
   id: '1',
   title: 'petal',
@@ -53,16 +53,7 @@ const FEATURED_ALBUM = {
   genre: 'Pop / R&B',
   duration: '37 min',
   rating: 4.8,
-  cover: 'https://arianagrande.fandom.com/wiki/Petal',
-
-  id: '2',
-  title: 'So Close To What (DELUXE)',
-  artist: 'Tate McRae',
-  type: 'Álbum',
-  genre: 'Pop / R&B',
-  duration: '37 min',
-  rating: 5.0,
-  cover: 'https://yt3.googleusercontent.com/haq8Tu_oI-5UH6FYs232b_vO3b4vQqmL1Imv_8Oc5R_U0RREn7IjZ4N5NfxE6vbuQFvRqEbpGAQPyH4=w544-h544-l90-rj',
+  cover: require('../assets/petal_cover.jpg'),
 };
 
 const RECENT_REVIEWS = [
@@ -71,15 +62,15 @@ const RECENT_REVIEWS = [
     user: 'Marina Silva',
     username: '@marina_aero',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop',
-    album: 'Chromatica',
+    album: 'The Fame Monster',
     artist: 'Lady Gaga',
     rating: 5,
-    selectedTrack: 'Rain On Me',
+    selectedTrack: 'Bad Romance',
     trackRating: 5,
     review: 'A produção synth-pop deste álbum é sensacional! Lembra demais os clássicos do Y2K com um toque moderno.',
     likes: 24,
     listened: true,
-    cover: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=300&auto=format&fit=crop',
+    cover: require('../assets/the_fame_monster_cover.jpg'),
   },
   {
     id: '102',
@@ -96,7 +87,21 @@ const RECENT_REVIEWS = [
     listened: true,
     cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=300&auto=format&fit=crop',
   },
-  
+  {
+    id: '103',
+    user: 'Camila Rocha',
+    username: '@camila_music',
+    avatar: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=200&auto=format&fit=crop',
+    album: 'Future Nostalgia',
+    artist: 'Dua Lipa',
+    rating: 4.7,
+    selectedTrack: 'Levitating',
+    trackRating: 5,
+    review: 'Dua Lipa trouxe o disco perfeito para dançar e se sentir bem. A produção é impecável!',
+    likes: 18,
+    listened: false,
+    cover: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=300&auto=format&fit=crop',
+  },
 ];
 
 export default function HomeScreen() {
@@ -111,7 +116,6 @@ export default function HomeScreen() {
   const [search, setSearch] = useState('');
   const [likedReviews, setLikedReviews] = useState({});
 
-  // Mostrar loading até as fontes carregarem
   if (!fontsLoaded && !fontError) {
     return (
       <SafeAreaView style={styles.container}>
@@ -129,14 +133,8 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#EAF4FE" />
-      
-      {/* Fundo Gradiente Atmosférico Aero */}
-      <LinearGradient
-        colors={['#EAF4FE', '#bcd9f9', '#c2d5e8']}
-        style={StyleSheet.absoluteFillObject}
-      />
+    <SafeAreaView style={[styles.container, { backgroundColor: '#CEE2F6' }]}>
+      <StatusBar barStyle="dark-content" backgroundColor="#1e80f0" />
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         
@@ -157,7 +155,7 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Barra de Pesquisa Estilo Aero Glass */}
+        {/* Barra de Pesquisa */}
         <View style={styles.searchCard}>
           <Feather name="search" size={20} color={PALETTE.azulAero} style={styles.searchIcon} />
           <TextInput
@@ -169,14 +167,14 @@ export default function HomeScreen() {
           />
         </View>
 
-        {/* Card de Destaque / Álbum Recomendado */}
+        {/* Card de Destaque */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Destaque da Comunidade</Text>
         </View>
 
         <View style={styles.heroGlassCard}>
           <Image
-            source={{ uri: FEATURED_ALBUM.cover }}
+            source={typeof FEATURED_ALBUM.cover === 'string' ? { uri: FEATURED_ALBUM.cover } : FEATURED_ALBUM.cover}
             style={styles.heroCover}
             contentFit="cover"
             transition={300}
@@ -193,21 +191,28 @@ export default function HomeScreen() {
             <Text style={styles.artistName}>{FEATURED_ALBUM.artist}</Text>
 
             <View style={styles.ratingRow}>
-              <Ionicons name="star" size={16} color="#FFD600" />
+              <Ionicons name="star" size={16} color="#00a6ff" />
               <Text style={styles.ratingText}>{FEATURED_ALBUM.rating} / 5.0</Text>
               <Text style={styles.infoText}>• {FEATURED_ALBUM.duration}</Text>
             </View>
 
             <View style={styles.actionButtonsRow}>
-              {/* Botão Principal com Gradiente Oceano Fresh */}
-              <TouchableOpacity style={styles.primaryButtonWrapper}>
+              {/* BOTÃO PRINCIPAL BRILHANTE (ESTILO GEL AERO) */}
+              <TouchableOpacity style={styles.primaryButtonWrapper} activeOpacity={0.8}>
                 <LinearGradient
-                  colors={[PALETTE.azulAero, PALETTE.aquaGlow]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
+                  colors={['#4dd5ff', '#2d6de3', '#7dfeb5']}
+                  start={{ x: 0.1, y: 0 }}
+                  end={{ x: 0.6, y: 2.5 }}
                   style={styles.primaryButton}
                 >
-                  <Ionicons name="create-outline" size={18} color="#FFF" style={{ marginRight: 6 }} />
+                  {/* Reflexo Glossy Superior (Efeito Curvo de Gel) */}
+                  <LinearGradient
+                    colors={['rgba(189, 251, 253, 0.92)', 'rgba(255, 255, 255, 0)']}
+                    start={{ x: 0.5, y: 0 }}
+                    end={{ x: 0.5, y: 0.85 }}
+                    style={styles.glossHighlightTop}
+                  />
+                  <Ionicons name="create-outline" size={18} color="#FFF" style={styles.buttonIcon} />
                   <Text style={styles.primaryButtonText}>Avaliar</Text>
                 </LinearGradient>
               </TouchableOpacity>
@@ -226,7 +231,6 @@ export default function HomeScreen() {
 
         {RECENT_REVIEWS.map((item) => (
           <View key={item.id} style={styles.reviewCard}>
-            {/* Usuário */}
             <View style={styles.reviewHeader}>
               <Image source={{ uri: item.avatar }} style={styles.userAvatar} contentFit="cover" />
               <View style={styles.userInfo}>
@@ -241,9 +245,13 @@ export default function HomeScreen() {
               )}
             </View>
 
-            {/* Conteúdo da Avaliação */}
             <View style={styles.reviewBody}>
-              <Image source={{ uri: item.cover }} style={styles.reviewAlbumCover} contentFit="cover" />
+              <Image
+                source={typeof FEATURED_ALBUM.cover === 'string' ? { uri: FEATURED_ALBUM.cover } : FEATURED_ALBUM.cover}
+                style={styles.heroCover}
+                contentFit="cover"
+                transition={300}
+              />
               <View style={styles.reviewContentText}>
                 <Text style={styles.reviewAlbumTitle}>{item.album}</Text>
                 <Text style={styles.reviewArtist}>{item.artist}</Text>
@@ -254,7 +262,7 @@ export default function HomeScreen() {
                       key={star}
                       name={star <= Math.floor(item.rating) ? 'star' : 'star-outline'}
                       size={14}
-                      color="#FFD600"
+                      color="#00a6ff"
                     />
                   ))}
                   <Text style={styles.trackNote}>
@@ -266,7 +274,6 @@ export default function HomeScreen() {
               </View>
             </View>
 
-            {/* Ações da Resenha */}
             <View style={styles.reviewFooter}>
               <TouchableOpacity style={styles.likeButton} onPress={() => toggleLike(item.id)}>
                 <Ionicons
@@ -288,31 +295,40 @@ export default function HomeScreen() {
         ))}
       </ScrollView>
 
-      {/* Dock Flutuante de Navegação (Aero Dock) */}
+      {/* Dock Flutuante de Navegação */}
       <View style={styles.dockContainer}>
         <View style={styles.dockGlass}>
           <TouchableOpacity style={styles.dockItem}>
             <Ionicons name="home" size={24} color={PALETTE.azulAero} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.dockItem}>
-            <Ionicons name="search-outline" size={24} color={PALETTE.cinzaMedio} />
+            <Ionicons name="search-outline" size={24} color={PALETTE.azulAero} />
           </TouchableOpacity>
 
-          {/* Botão central em gradiente Verde Lime */}
-          <TouchableOpacity style={styles.addDockButtonWrapper}>
+          {/* BOTÃO CENTRAL DE ADICIONAR (ESFERA BRILHANTE FRUTIGER) */}
+          <TouchableOpacity style={styles.addDockButtonWrapper} activeOpacity={0.85}>
             <LinearGradient
-              colors={['#7CFF00', '#38FF00']}
+              colors={['#4dd5ff', '#2d6de3', '#7dfeb5']}
+              start={{ x: 0.2, y: 0 }}
+              end={{ x: 0.7, y: 1 }}
               style={styles.addDockButton}
             >
-              <Ionicons name="add" size={30} color={PALETTE.azulEscuro} />
+              {/* Brilho Superior Curvo do Botão Central */}
+              <LinearGradient
+                colors={['rgba(255, 255, 255, 0.95)', 'rgba(255, 255, 255, 0)']}
+                start={{ x: 0.5, y: 0 }}
+                end={{ x: 0.5, y: 0.75 }}
+                style={styles.glossHighlightDockTop}
+              />
+              <Ionicons name="add" size={32} color={PALETTE.branco} style={{ zIndex: 3 }} />
             </LinearGradient>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.dockItem}>
-            <Ionicons name="heart-outline" size={24} color={PALETTE.cinzaMedio} />
+            <Ionicons name="heart-outline" size={24} color={PALETTE.azulAero} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.dockItem}>
-            <Ionicons name="person-outline" size={24} color={PALETTE.cinzaMedio} />
+            <Ionicons name="person-outline" size={24} color={PALETTE.azulAero} />
           </TouchableOpacity>
         </View>
       </View>
@@ -320,10 +336,10 @@ export default function HomeScreen() {
   );
 }
 
-// Estilização no padrão Frutiger Aero
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#edf8ff',
   },
   scrollContent: {
     paddingHorizontal: 16,
@@ -352,7 +368,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: PALETTE.branco,
     borderWidth: 2,
-    borderColor: PALETTE.azulCeu,
+    borderColor: PALETTE.rosaNeon,
   },
   avatar: {
     width: 42,
@@ -363,7 +379,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: PALETTE.glassBg,
-    borderColor: PALETTE.glassBorder,
+    borderColor: PALETTE.branco,
     borderWidth: 1.5,
     borderRadius: 20,
     paddingHorizontal: 14,
@@ -395,19 +411,21 @@ const styles = StyleSheet.create({
   heroGlassCard: {
     flexDirection: 'row',
     backgroundColor: PALETTE.glassBg,
-    borderColor: PALETTE.glassBorder,
+    borderColor: PALETTE.branco,
     borderWidth: 1.5,
     borderRadius: 20,
     padding: 12,
     marginBottom: 22,
-    shadowColor: PALETTE.azulAero,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.12,
-    shadowRadius: 10,
-    elevation: 4,
+    // shadowColor: PALETTE.azulAero,
+    // shadowOffset: { width: 0, height: 6 },
+    // shadowOpacity: 0.12,
+    // shadowRadius: 10,
+    // elevation: 4,
   },
   heroCover: {
     width: 105,
+    borderWidth: 3,
+    borderColor: PALETTE.branco,
     height: 105,
     borderRadius: 14,
   },
@@ -471,23 +489,42 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 4,
   },
+
   primaryButtonWrapper: {
-    borderRadius: 14,
-    overflow: 'hidden',
     flex: 1,
-  },
+    borderRadius: 18,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255, 255, 255, 0.85)',
+    overflow: 'hidden',
+    },
   primaryButton: {
+    position: 'relative',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 7,
-    borderRadius: 14,
+    paddingVertical: 10,
+    borderRadius: 36,
+  },
+  glossHighlightTop: {
+    position: 'absolute',
+    top: 0,
+    left: 2,
+    right: 2,
+    height: '28%',
+    borderRadius: 50,
+    zIndex: 2,
+  },
+  buttonIcon: {
+    marginRight: 6,
+    zIndex: 3,
   },
   primaryButtonText: {
     fontFamily: 'PlusJakartaSans_700Bold',
     fontSize: 13,
     color: PALETTE.branco,
+    zIndex: 3,
   },
+
   iconButton: {
     width: 32,
     height: 32,
@@ -500,16 +537,16 @@ const styles = StyleSheet.create({
   },
   reviewCard: {
     backgroundColor: PALETTE.glassBg,
-    borderColor: PALETTE.glassBorder,
+    borderColor: PALETTE.branco,
     borderWidth: 1.5,
-    borderRadius: 18,
+    borderRadius: 30,
     padding: 12,
     marginBottom: 14,
-    shadowColor: PALETTE.azulEscuro,
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 2,
+    // shadowColor: PALETTE.azulEscuro,
+    // shadowOffset: { width: 0, height: 3 },
+    // shadowOpacity: 0.08,
+    // shadowRadius: 6,
+    // elevation: 2,
   },
   reviewHeader: {
     flexDirection: 'row',
@@ -629,9 +666,9 @@ const styles = StyleSheet.create({
   },
   dockGlass: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.85)',
-    borderColor: PALETTE.glassBorder,
-    borderWidth: 1.5,
+    backgroundColor: 'rgba(217, 238, 255, 0.77)',
+    borderColor: PALETTE.branco,
+    borderWidth: 2,
     borderRadius: 30,
     paddingHorizontal: 16,
     paddingVertical: 8,
@@ -639,7 +676,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     shadowColor: PALETTE.azulAero,
-    shadowOffset: { width: 0, height: 8 },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 12,
     elevation: 8,
@@ -647,20 +684,29 @@ const styles = StyleSheet.create({
   dockItem: {
     padding: 8,
   },
+
   addDockButtonWrapper: {
-    marginTop: -24,
-    borderRadius: 25,
-    shadowColor: PALETTE.verdeLime,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 6,
-    elevation: 6,
+    marginTop: -28,
+    borderRadius: 28,
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.95)',
   },
   addDockButton: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 54,
+    height: 54,
+    borderRadius: 27,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  glossHighlightDockTop: {
+    position: 'absolute',
+    top: 0,
+    left: 3,
+    right: 3,
+    height: '28%',
+    borderRadius: 24,
+    zIndex: 2,
   },
 });
