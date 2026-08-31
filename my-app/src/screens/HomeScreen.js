@@ -1,3 +1,10 @@
+/**
+ * HomeScreen - Tela Principal do MUSICFY
+ * 
+ * Apresenta um feed social de avaliações de álbuns, EPs e tracks
+ * com design glassmorphic em paleta Aero colors vibrante.
+ */
+
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -8,7 +15,6 @@ import {
   TextInput,
   SafeAreaView,
   StatusBar,
-  FlatList,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -24,22 +30,25 @@ import {
   PlusJakartaSans_700Bold,
 } from '@expo-google-fonts/plus-jakarta-sans';
 
-// Paleta de Cores Aero & Frutiger
+/**
+ * Paleta de Cores - Design System Aero & Frutiger
+ * Inspirado em estilos Y2K futuristas com neons vibrantes
+ */
 const PALETTE = {
-  azulAero: '#0096FF',
-  verdeLime: '#7CFF00',
-  roxoOrbital: '#915BFF',
-  rosaNeon: '#FF4FD8',
-  azulCeu: '#00C2FF',
-  aquaGlow: '#00FFD1',
-  azulEscuro: '#0D1B2A',
-  cinzaAero: '#334155',
-  cinzaMedio: '#64748B',
-  cinzaClaro: '#CBD5E1',
-  cinzaSuave: '#F1F5F9',
-  branco: '#FFFFFF',
-  glassBg: 'rgba(255, 255, 255, 0.75)',
-  glassBorder: 'rgba(255, 255, 255, 0.9)',
+  azulAero: '#0096FF',        // Cor primária
+  verdeLime: '#7CFF00',       // Destaque e ações
+  roxoOrbital: '#915BFF',     // Acentos secundários
+  rosaNeon: '#FF4FD8',        // Interações (likes)
+  azulCeu: '#00C2FF',         // Badges
+  aquaGlow: '#00FFD1',        // Gradientes
+  azulEscuro: '#0D1B2A',      // Textos primários
+  cinzaAero: '#334155',       // Textos secundários
+  cinzaMedio: '#64748B',      // Placeholders
+  cinzaClaro: '#CBD5E1',      // Bordas
+  cinzaSuave: '#F1F5F9',      // Fundos suaves
+  branco: '#FFFFFF',          // Branco puro
+  glassBg: 'rgba(255, 255, 255, 0.75)',     // Glass effect background
+  glassBorder: 'rgba(255, 255, 255, 0.9)',  // Glass effect border
 };
 
 // Dados Mockados de Exemplo
@@ -88,7 +97,7 @@ const RECENT_REVIEWS = [
 ];
 
 export default function HomeScreen() {
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     Nunito_800ExtraBold,
     Nunito_600SemiBold,
     PlusJakartaSans_400Regular,
@@ -99,7 +108,18 @@ export default function HomeScreen() {
   const [search, setSearch] = useState('');
   const [likedReviews, setLikedReviews] = useState({});
 
-  if (!fontsLoaded) return null;
+  // Mostrar loading até as fontes carregarem
+  if (!fontsLoaded && !fontError) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+          <Text style={{ color: PALETTE.azulAero, fontSize: 18, fontWeight: '600' }}>
+            Carregando...
+          </Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   const toggleLike = (id) => {
     setLikedReviews((prev) => ({ ...prev, [id]: !prev[id] }));
