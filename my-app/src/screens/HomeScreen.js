@@ -134,7 +134,7 @@ export default function HomeScreen() {
       
       {/* Fundo Gradiente Atmosférico Aero */}
       <LinearGradient
-        colors={['#EAF4FE', '#D5E9FF', '#F1F5F9']}
+        colors={['#EAF4FE', '#bcd9f9', '#c2d5e8']}
         style={StyleSheet.absoluteFillObject}
       />
 
