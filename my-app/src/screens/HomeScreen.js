@@ -1,10 +1,3 @@
-/**
- * HomeScreen - Tela Principal do MUSICFY
- * 
- * Apresenta um feed social de avaliações de álbuns, EPs e tracks
- * com design glassmorphic em paleta Aero colors vibrante.
- */
-
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -54,13 +47,22 @@ const PALETTE = {
 // Dados Mockados de Exemplo
 const FEATURED_ALBUM = {
   id: '1',
-  title: 'Future Nostalgia',
-  artist: 'Dua Lipa',
+  title: 'petal',
+  artist: 'Ariana Grande',
   type: 'Álbum',
-  genre: 'Pop / Disco',
+  genre: 'Pop / R&B',
   duration: '37 min',
   rating: 4.8,
-  cover: 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=600&auto=format&fit=crop',
+  cover: 'https://arianagrande.fandom.com/wiki/Petal',
+
+  id: '2',
+  title: 'So Close To What (DELUXE)',
+  artist: 'Tate McRae',
+  type: 'Álbum',
+  genre: 'Pop / R&B',
+  duration: '37 min',
+  rating: 5.0,
+  cover: 'https://yt3.googleusercontent.com/haq8Tu_oI-5UH6FYs232b_vO3b4vQqmL1Imv_8Oc5R_U0RREn7IjZ4N5NfxE6vbuQFvRqEbpGAQPyH4=w544-h544-l90-rj',
 };
 
 const RECENT_REVIEWS = [
@@ -94,6 +96,7 @@ const RECENT_REVIEWS = [
     listened: true,
     cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=300&auto=format&fit=crop',
   },
+  
 ];
 
 export default function HomeScreen() {
