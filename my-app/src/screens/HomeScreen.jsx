@@ -33,7 +33,7 @@ import {
   PlusJakartaSans_700Bold,
 } from '@expo-google-fonts/plus-jakarta-sans';
 
-import { getAlbums } from '../database/albums';
+import { getAlbums } from '../../database/albums';
 
 
 // =====================================================
@@ -121,7 +121,9 @@ function AlbumCard({ album, onPress }) {
 // HOME
 // =====================================================
 
-export default function HomeScreen() {
+export default function HomeScreen({
+  navigation,
+}) {
 
   const [fontsLoaded, fontError] = useFonts({
 
@@ -573,7 +575,10 @@ export default function HomeScreen() {
 
           {/* EXPLORAR */}
 
-          <TouchableOpacity style={styles.dockItem}>
+          <TouchableOpacity
+            style={styles.dockItem}
+            onPress={() => navigation.navigate('Explore')}
+          >
 
             <Ionicons
               name="search-outline"
@@ -588,6 +593,7 @@ export default function HomeScreen() {
 
           <TouchableOpacity
             style={styles.addDockButtonWrapper}
+            onPress={() => navigation.navigate('CreatePost')}
           >
 
             <LinearGradient
@@ -612,7 +618,10 @@ export default function HomeScreen() {
 
           {/* NOTIFICAÇÕES */}
 
-          <TouchableOpacity style={styles.dockItem}>
+          <TouchableOpacity
+            style={styles.dockItem}
+            onPress={() => navigation.navigate('Notification')}
+          >
 
             <Ionicons
               name="heart-outline"
@@ -625,7 +634,10 @@ export default function HomeScreen() {
 
           {/* PERFIL */}
 
-          <TouchableOpacity style={styles.dockItem}>
+          <TouchableOpacity
+            style={styles.dockItem}
+            onPress={() => navigation.navigate('Profile')}
+          >
 
             <Ionicons
               name="person-outline"
