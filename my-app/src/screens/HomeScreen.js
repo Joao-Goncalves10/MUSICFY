@@ -104,7 +104,7 @@ const RECENT_REVIEWS = [
   },
 ];
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const [fontsLoaded, fontError] = useFonts({
     Nunito_800ExtraBold,
     Nunito_600SemiBold,
@@ -145,7 +145,10 @@ export default function HomeScreen() {
             <Text style={styles.subtext}>O que vamos ouvir hoje?</Text>
           </View>
 
-          <TouchableOpacity style={styles.avatarContainer}>
+          <TouchableOpacity
+            style={styles.avatarContainer}
+            onPress={() => navigation.navigate('Profile')}
+          >
             <Image
               source={{ uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop' }}
               style={styles.avatar}
@@ -197,8 +200,11 @@ export default function HomeScreen() {
             </View>
 
             <View style={styles.actionButtonsRow}>
-              {/* BOTÃO PRINCIPAL BRILHANTE (ESTILO GEL AERO) */}
-              <TouchableOpacity style={styles.primaryButtonWrapper} activeOpacity={0.8}>
+              {/* Botão Principal com Gradiente Oceano Fresh */}
+              <TouchableOpacity
+                style={styles.primaryButtonWrapper}
+                onPress={() => navigation.navigate('Review', { albumId: FEATURED_ALBUM.id })}
+              >
                 <LinearGradient
                   colors={['#4dd5ff', '#2d6de3', '#7dfeb5']}
                   start={{ x: 0.1, y: 0 }}
@@ -301,12 +307,18 @@ export default function HomeScreen() {
           <TouchableOpacity style={styles.dockItem}>
             <Ionicons name="home" size={24} color={PALETTE.azulAero} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.dockItem}>
-            <Ionicons name="search-outline" size={24} color={PALETTE.azulAero} />
+          <TouchableOpacity
+            style={styles.dockItem}
+            onPress={() => navigation.navigate('Explore')}
+          >
+            <Ionicons name="search-outline" size={24} color={PALETTE.cinzaMedio} />
           </TouchableOpacity>
 
-          {/* BOTÃO CENTRAL DE ADICIONAR (ESFERA BRILHANTE FRUTIGER) */}
-          <TouchableOpacity style={styles.addDockButtonWrapper} activeOpacity={0.85}>
+          {/* Botão central em gradiente Verde Lime */}
+          <TouchableOpacity
+            style={styles.addDockButtonWrapper}
+            onPress={() => navigation.navigate('CreatePost')}
+          >
             <LinearGradient
               colors={['#4dd5ff', '#2d6de3', '#7dfeb5']}
               start={{ x: 0.2, y: 0 }}
@@ -324,11 +336,17 @@ export default function HomeScreen() {
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.dockItem}>
-            <Ionicons name="heart-outline" size={24} color={PALETTE.azulAero} />
+          <TouchableOpacity
+            style={styles.dockItem}
+            onPress={() => navigation.navigate('Notification')}
+          >
+            <Ionicons name="heart-outline" size={24} color={PALETTE.cinzaMedio} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.dockItem}>
-            <Ionicons name="person-outline" size={24} color={PALETTE.azulAero} />
+          <TouchableOpacity
+            style={styles.dockItem}
+            onPress={() => navigation.navigate('Profile')}
+          >
+            <Ionicons name="person-outline" size={24} color={PALETTE.cinzaMedio} />
           </TouchableOpacity>
         </View>
       </View>
