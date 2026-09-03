@@ -11,6 +11,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getReviews } from '../../database/review';
+import { getAlbums } from '../../database/albums';
 
 const COLORS = {
   blue: '#0096FF',
@@ -25,6 +26,7 @@ const COLORS = {
 
 export default function ProfileScreen({ navigation }) {
   const [reviews, setReviews] = useState([]);
+  const [albums, setAlbums] = useState([]);
   const [user, setUser] = useState({
     name: 'João Silva',
     username: 'joaomusic',
@@ -36,6 +38,7 @@ export default function ProfileScreen({ navigation }) {
     const unsubscribe = navigation.addListener('focus', () => {
       loadUserProfile();
       loadReviews();
+      loadAlbums();
     });
     return unsubscribe;
   }, [navigation]);
@@ -58,6 +61,16 @@ export default function ProfileScreen({ navigation }) {
     } catch (error) {
       console.error('Erro ao carregar avaliações:', error);
       setReviews([]);
+    }
+  }
+
+  async function loadAlbums() {
+    try {
+      const data = await getAlbums();
+      setAlbums(data || []);
+    } catch (error) {
+      console.error('Erro ao carregar biblioteca:', error);
+      setAlbums([]);
     }
   }
 
@@ -121,6 +134,41 @@ export default function ProfileScreen({ navigation }) {
               </TouchableOpacity>
             </View>
 
+            <View style={styles.libraryHeader}>
+              <Text style={styles.section}>✦ Minha biblioteca</Text>
+              <TouchableOpacity
+                style={styles.addButton}
+                onPress={() => navigation.navigate('AddAlbum')}
+                accessibilityLabel="Adicionar álbum"
+              >
+                <Ionicons name="add" size={20} color={COLORS.white} />
+              </TouchableOpacity>
+            </View>
+
+            {albums.length === 0 ? (
+              <Text style={styles.emptyLibrary}>Nenhum álbum adicionado ainda.</Text>
+            ) : (
+              <View style={styles.libraryGrid}>
+                {albums.map((album) => (
+                  <TouchableOpacity
+                    key={String(album.id)}
+                    style={styles.libraryCard}
+                    onPress={() => navigation.navigate('AlbumDetails', { id: album.id })}
+                  >
+                    {album.cover ? (
+                      <Image source={{ uri: album.cover }} style={styles.libraryCover} />
+                    ) : (
+                      <View style={styles.libraryCoverPlaceholder}>
+                        <Ionicons name="musical-notes" size={30} color={COLORS.blue} />
+                      </View>
+                    )}
+                    <Text style={styles.libraryTitle} numberOfLines={1}>{album.title}</Text>
+                    <Text style={styles.libraryArtist} numberOfLines={1}>{album.artist}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+
             <Text style={styles.section}>✦ Minhas avaliações</Text>
           </>
         }
@@ -165,6 +213,15 @@ const styles = StyleSheet.create({
   editButton: { borderWidth: 1.5, borderColor: COLORS.blue, borderRadius: 14, paddingHorizontal: 30, paddingVertical: 9, marginTop: 18 },
   editText: { color: COLORS.blue, fontWeight: '800' },
   section: { fontSize: 21, fontWeight: '900', color: COLORS.text, marginTop: 28, marginBottom: 15 },
+  libraryHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  addButton: { width: 38, height: 38, borderRadius: 19, backgroundColor: COLORS.blue, alignItems: 'center', justifyContent: 'center' },
+  libraryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
+  libraryCard: { width: '48%', backgroundColor: COLORS.white, borderRadius: 18, padding: 10, marginBottom: 12 },
+  libraryCover: { width: '100%', aspectRatio: 1, borderRadius: 14 },
+  libraryCoverPlaceholder: { width: '100%', aspectRatio: 1, borderRadius: 14, backgroundColor: '#DDF5FF', alignItems: 'center', justifyContent: 'center' },
+  libraryTitle: { fontSize: 13, fontWeight: '800', color: COLORS.text, marginTop: 8 },
+  libraryArtist: { fontSize: 11, color: COLORS.gray, marginTop: 2 },
+  emptyLibrary: { color: COLORS.gray, textAlign: 'center', marginVertical: 16 },
   reviewCard: { width: '48%', backgroundColor: COLORS.white, borderRadius: 18, padding: 10, marginBottom: 12 },
   albumPlaceholder: { aspectRatio: 1, borderRadius: 14, backgroundColor: '#DDF5FF', alignItems: 'center', justifyContent: 'center' },
   reviewRating: { color: '#FFB800', fontSize: 12, marginTop: 7 },

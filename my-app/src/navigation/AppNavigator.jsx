@@ -11,6 +11,7 @@ import EditReviewScreen from '../screens/EditReviewScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
+import AddAlbumScreen from '../screens/AddAlbumScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ export default function AppNavigator() {
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         <Stack.Screen name="Notification" component={NotificationScreen} />
+        <Stack.Screen name="AddAlbum" component={AddAlbumScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

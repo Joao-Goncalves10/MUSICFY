@@ -245,16 +245,7 @@ export default function HomeScreen({
     <AlbumCard
       album={item}
       onPress={() => {
-
-        console.log(
-          'Álbum selecionado:',
-          item.id
-        );
-
-        // Depois vamos colocar aqui:
-        // navigation.navigate('AlbumDetails', {
-        //   id: item.id
-        // });
+        navigation.navigate('AlbumDetails', { id: item.id });
 
       }}
     />
@@ -272,7 +263,7 @@ export default function HomeScreen({
 
       <StatusBar
         barStyle="dark-content"
-        backgroundColor="#EAF4FE"
+        backgroundColor="#0c4783"
       />
 
 
@@ -282,9 +273,9 @@ export default function HomeScreen({
 
       <LinearGradient
         colors={[
-          '#EAF4FE',
+          '#b1cbe4',
           '#D5E9FF',
-          '#F1F5F9',
+          '#b3d9ff',
         ]}
         style={StyleSheet.absoluteFillObject}
       />
@@ -520,6 +511,7 @@ export default function HomeScreen({
 
             <TouchableOpacity
               style={styles.emptyButton}
+              onPress={() => navigation.navigate('AddAlbum')}
             >
 
               <LinearGradient
@@ -594,13 +586,24 @@ export default function HomeScreen({
           <TouchableOpacity
             style={styles.addDockButtonWrapper}
             onPress={() => navigation.navigate('CreatePost')}
+            accessibilityLabel="Adicionar álbum"
           >
 
             <LinearGradient
               colors={[
-                PALETTE.verdeLime,
-                '#38FF00',
-              ]}
+                  PALETTE.azulAero,
+                  PALETTE.aquaGlow,
+                ]}
+
+                start={{
+                  x: 0,
+                  y: 1,
+                }}
+
+                end={{
+                  x: 1,
+                  y: 1,
+                }}
 
               style={styles.addDockButton}
             >
@@ -1143,7 +1146,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
 
     shadowColor:
-      PALETTE.verdeLime,
+      PALETTE.aquaGlow,
 
     shadowOffset: {
       width: 0,
@@ -1159,10 +1162,10 @@ const styles = StyleSheet.create({
 
 
   addDockButton: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
 
-    borderRadius: 25,
+    borderRadius: 50,
 
     alignItems: 'center',
     justifyContent: 'center',

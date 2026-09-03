@@ -137,10 +137,12 @@ export default function CreatePostScreen({ navigation }) {
       {/* BOTÕES DE SELEÇÃO (ÁLBUM E AVALIAÇÃO) */}
       <View style={styles.optionsRow}>
         <TouchableOpacity
+
+        
           style={styles.optionPill}
           onPress={() => setAlbumModalVisible(true)}
         >
-          <Ionicons name="disc-outline" size={20} color={COLORS.blue} />
+          <Ionicons name="disc-outline" size={20} color={COLORS.gray} />
           <Text style={styles.optionPillText}>Álbum</Text>
         </TouchableOpacity>
 
@@ -337,7 +339,6 @@ const styles = StyleSheet.create({
   optionPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.white,
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 20,
