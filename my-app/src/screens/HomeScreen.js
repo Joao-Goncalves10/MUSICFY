@@ -99,7 +99,7 @@ const RECENT_REVIEWS = [
   
 ];
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const [fontsLoaded, fontError] = useFonts({
     Nunito_800ExtraBold,
     Nunito_600SemiBold,
@@ -147,7 +147,10 @@ export default function HomeScreen() {
             <Text style={styles.subtext}>O que vamos ouvir hoje?</Text>
           </View>
 
-          <TouchableOpacity style={styles.avatarContainer}>
+          <TouchableOpacity
+            style={styles.avatarContainer}
+            onPress={() => navigation.navigate('Profile')}
+          >
             <Image
               source={{ uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop' }}
               style={styles.avatar}
@@ -200,7 +203,10 @@ export default function HomeScreen() {
 
             <View style={styles.actionButtonsRow}>
               {/* Botão Principal com Gradiente Oceano Fresh */}
-              <TouchableOpacity style={styles.primaryButtonWrapper}>
+              <TouchableOpacity
+                style={styles.primaryButtonWrapper}
+                onPress={() => navigation.navigate('Review', { albumId: FEATURED_ALBUM.id })}
+              >
                 <LinearGradient
                   colors={[PALETTE.azulAero, PALETTE.aquaGlow]}
                   start={{ x: 0, y: 0 }}
@@ -294,12 +300,18 @@ export default function HomeScreen() {
           <TouchableOpacity style={styles.dockItem}>
             <Ionicons name="home" size={24} color={PALETTE.azulAero} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.dockItem}>
+          <TouchableOpacity
+            style={styles.dockItem}
+            onPress={() => navigation.navigate('Explore')}
+          >
             <Ionicons name="search-outline" size={24} color={PALETTE.cinzaMedio} />
           </TouchableOpacity>
 
           {/* Botão central em gradiente Verde Lime */}
-          <TouchableOpacity style={styles.addDockButtonWrapper}>
+          <TouchableOpacity
+            style={styles.addDockButtonWrapper}
+            onPress={() => navigation.navigate('CreatePost')}
+          >
             <LinearGradient
               colors={['#7CFF00', '#38FF00']}
               style={styles.addDockButton}
@@ -308,10 +320,16 @@ export default function HomeScreen() {
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.dockItem}>
+          <TouchableOpacity
+            style={styles.dockItem}
+            onPress={() => navigation.navigate('Notification')}
+          >
             <Ionicons name="heart-outline" size={24} color={PALETTE.cinzaMedio} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.dockItem}>
+          <TouchableOpacity
+            style={styles.dockItem}
+            onPress={() => navigation.navigate('Profile')}
+          >
             <Ionicons name="person-outline" size={24} color={PALETTE.cinzaMedio} />
           </TouchableOpacity>
         </View>
