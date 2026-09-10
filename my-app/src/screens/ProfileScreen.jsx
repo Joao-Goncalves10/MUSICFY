@@ -34,6 +34,7 @@ export default function ProfileScreen({ navigation }) {
     avatar: null,
   });
 
+  // useEffect: recarrega o perfil, as avaliações e a biblioteca quando a tela volta ao foco.
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       loadUserProfile();
@@ -43,6 +44,7 @@ export default function ProfileScreen({ navigation }) {
     return unsubscribe;
   }, [navigation]);
 
+  // Lê o perfil salvo no AsyncStorage e atualiza o estado da tela.
   async function loadUserProfile() {
     try {
       const savedUser = await AsyncStorage.getItem('@user_profile');
@@ -54,6 +56,7 @@ export default function ProfileScreen({ navigation }) {
     }
   }
 
+  // Carrega as avaliações do usuário para mostrar na área de "Minhas avaliações".
   async function loadReviews() {
     try {
       const data = await getReviews();
@@ -64,6 +67,7 @@ export default function ProfileScreen({ navigation }) {
     }
   }
 
+  // Busca a biblioteca de álbuns para renderizar a seção "Minha biblioteca".
   async function loadAlbums() {
     try {
       const data = await getAlbums();
@@ -173,7 +177,17 @@ export default function ProfileScreen({ navigation }) {
           </>
         }
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.reviewCard}>
+          <TouchableOpacity
+            style={styles.reviewCard}
+            onPress={() =>
+              navigation.navigate('EditReview', {
+                id: item.id,
+                initialRating: item.rating,
+                initialReview: item.review,
+                initialStatus: item.status || 'ouvido',
+              })
+            }
+          >
             <View style={styles.albumPlaceholder}>
               <Ionicons name="disc" size={35} color={COLORS.blue} />
             </View>

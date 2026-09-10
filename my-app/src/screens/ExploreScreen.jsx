@@ -39,6 +39,7 @@ export default function ExploreScreen({
     useState('');
 
 
+  // useEffect: busca os álbuns quando a tela é montada.
   useEffect(() => {
 
     loadAlbums();
@@ -46,6 +47,7 @@ export default function ExploreScreen({
   }, []);
 
 
+  // Consulta o banco e atualiza a lista de álbuns exibida na tela.
   async function loadAlbums() {
 
     const data = await getAlbums();
@@ -55,6 +57,7 @@ export default function ExploreScreen({
   }
 
 
+  // Filtra a lista por título ou artista conforme o texto digitado na busca.
   const filteredAlbums =
     albums.filter(album =>
 

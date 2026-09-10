@@ -2,6 +2,7 @@ import * as SQLite from 'expo-sqlite';
 
 let db = null;
 
+// Inicializa o banco específico de reviews e cria a tabela caso ainda não exista.
 async function initializeDatabase() {
   if (db) return db;
   
@@ -26,6 +27,7 @@ async function initializeDatabase() {
   }
 }
 
+// Cria uma nova review vinculada a um álbum com nota, texto e status.
 export async function createReview(
   albumId,
   rating,
@@ -55,6 +57,7 @@ export async function createReview(
   }
 }
 
+// Busca todas as reviews em ordem decrescente para exibir no perfil e em outras telas.
 export async function getReviews() {
   try {
     const database = await initializeDatabase();
@@ -75,7 +78,31 @@ export async function getReviews() {
   }
 }
 
+export async function getReviewByAlbumId(albumId) {
+  try {
+    const database = await initializeDatabase();
+    if (!database) throw new Error('Database not initialized');
 
+    const review = await database.getFirstAsync(
+      `
+      SELECT *
+      FROM reviews
+      WHERE album_id = ?
+      ORDER BY id DESC
+      LIMIT 1
+      `,
+      albumId
+    );
+
+    return review || null;
+  } catch (error) {
+    console.error('Erro ao buscar review do álbum:', error);
+    return null;
+  }
+}
+
+
+// Atualiza os dados de uma review já existente.
 export async function updateReview(
   id,
   rating,
@@ -107,6 +134,7 @@ export async function updateReview(
 }
 
 
+// Remove uma review pelo id.
 export async function deleteReview(id) {
   try {
     const database = await initializeDatabase();

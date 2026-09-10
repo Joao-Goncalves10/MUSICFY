@@ -37,15 +37,18 @@ export default function CreatePostScreen({ navigation }) {
   const [albumModalVisible, setAlbumModalVisible] = useState(false);
   const [ratingModalVisible, setRatingModalVisible] = useState(false);
 
+  // useEffect: carrega a lista de álbuns ao abrir a tela para o usuário escolher um item.
   useEffect(() => {
     loadAlbumsList();
   }, []);
 
+  // Busca os álbuns disponíveis para montar a seleção do modal.
   async function loadAlbumsList() {
     const list = await getAlbums();
     setAlbums(list || []);
   }
 
+  // Publica a avaliação e salva o texto do post, caso o usuário tenha escolhido um álbum.
   async function handlePublish() {
     if (!selectedAlbum) {
       Alert.alert('Atenção', 'Por favor, selecione um álbum para publicar.');

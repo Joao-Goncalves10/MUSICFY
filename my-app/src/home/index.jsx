@@ -14,11 +14,13 @@ import { COLORS } from '../../constants/colors';
 export default function Home() {
   const [albums, setAlbums] = useState([]);
 
+  // Busca os álbuns salvos e atualiza a lista da tela inicial.
   async function loadAlbums() {
     const data = await getAlbums();
     setAlbums(data);
   }
 
+  // useEffect: carrega os álbuns assim que a tela é montada.
   useEffect(() => {
     loadAlbums();
   }, []);

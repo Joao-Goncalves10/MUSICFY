@@ -13,6 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { getAlbums, deleteAlbum } from '../../database/albums';
+import { getReviewByAlbumId } from '../../database/review';
 
 const COLORS = {
   blue: '#0096FF',
@@ -43,12 +44,20 @@ export default function AlbumDetailsScreen({ route, navigation }) {
   const [album, setAlbum] = useState(null);
   const [tracks, setTracks] = useState([]);
   const [averageRating, setAverageRating] = useState('0.0');
+  const [userReview, setUserReview] = useState(null);
 
+  // useEffect: carrega o álbum solicitado quando a tela abre.
   useEffect(() => {
     loadAlbum();
-  }, []);
 
-  // Recalcula a média sempre que as notas das faixas mudam
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadAlbum();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  // useEffect: recalcula a média geral sempre que as notas das faixas mudarem.
   useEffect(() => {
     if (tracks.length === 0) return;
 
@@ -63,6 +72,7 @@ export default function AlbumDetailsScreen({ route, navigation }) {
     setAverageRating(avg);
   }, [tracks]);
 
+  // Busca no banco o álbum pelo id recebido pela navegação.
   async function loadAlbum() {
     const albums = await getAlbums();
     const foundAlbum = albums.find((item) => item.id === id);
@@ -71,10 +81,31 @@ export default function AlbumDetailsScreen({ route, navigation }) {
       setAlbum(foundAlbum);
       // Carrega as faixas do banco ou atribui o padrão caso não exista
       setTracks(foundAlbum.tracks || DEFAULT_TRACKS);
+
+      const review = await getReviewByAlbumId(id);
+      setUserReview(review);
     }
   }
 
-  // Função para avaliar uma faixa individualmente
+  function handleReviewPress() {
+    if (userReview) {
+      navigation.navigate('EditReview', {
+        id: userReview.id,
+        initialRating: userReview.rating,
+        initialReview: userReview.review,
+        initialStatus: userReview.status || 'ouvido',
+      });
+      return;
+    }
+
+    navigation.navigate('Review', {
+      albumId: album.id,
+      tracks: tracks,
+      averageRating: averageRating,
+    });
+  }
+
+  // Atualiza a nota de uma faixa individual e permite remover a avaliação ao clicar na mesma estrela novamente.
   function handleRateTrack(trackId, ratingValue) {
     const updatedTracks = tracks.map((track) => {
       if (track.id === trackId) {
@@ -88,6 +119,7 @@ export default function AlbumDetailsScreen({ route, navigation }) {
     setTracks(updatedTracks);
   }
 
+  // Solicita confirmação antes de excluir o álbum e retorna para a tela anterior.
   async function handleDelete() {
     Alert.alert(
       'Excluir álbum',
@@ -218,21 +250,15 @@ export default function AlbumDetailsScreen({ route, navigation }) {
         </View>
 
         {/* BOTÃO PARA SALVAR OU AVALIAR */}
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('Review', {
-              albumId: album.id,
-              tracks: tracks,
-              averageRating: averageRating,
-            })
-          }
-        >
+        <TouchableOpacity onPress={handleReviewPress}>
           <LinearGradient
             colors={[COLORS.blue, COLORS.purple]}
             style={styles.reviewButton}
           >
             <Ionicons name="star" size={20} color={COLORS.white} />
-            <Text style={styles.reviewButtonText}>Escrever Resenha</Text>
+            <Text style={styles.reviewButtonText}>
+              {userReview ? 'Editar Resenha' : 'Escrever Resenha'}
+            </Text>
           </LinearGradient>
         </TouchableOpacity>
 
@@ -248,7 +274,7 @@ export default function AlbumDetailsScreen({ route, navigation }) {
           </View>
 
           <Text style={styles.reviewText}>
-            {album.review ||
+            {userReview?.review ||
               'Ainda não há resenha escrita para este álbum. Clique no botão acima para adicionar suas opiniões!'}
           </Text>
         </View>

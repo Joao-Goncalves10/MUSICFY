@@ -2,6 +2,7 @@ import * as SQLite from 'expo-sqlite';
 
 let db = null;
 
+// Abre a conexão com o SQLite e cria as tabelas necessárias na primeira execução.
 export async function initializeDatabase() {
   if (db) return db;
 
@@ -41,6 +42,7 @@ export async function initializeDatabase() {
 // ----------------------------------------------------
 // CREATE (Álbum)
 // ----------------------------------------------------
+// Salva um novo álbum no banco com título, artista, ano e capa.
 export async function createAlbum(title, artist, year, cover) {
   try {
     const database = await initializeDatabase();
@@ -67,6 +69,7 @@ export async function createAlbum(title, artist, year, cover) {
 // ----------------------------------------------------
 // READ (Todos os Álbuns)
 // ----------------------------------------------------
+// Busca todos os álbuns cadastrados em ordem decrescente de criação.
 export async function getAlbums() {
   try {
     const database = await initializeDatabase();
@@ -86,6 +89,7 @@ export async function getAlbums() {
 // ----------------------------------------------------
 // READ (Biblioteca com Avaliações do Usuário)
 // ----------------------------------------------------
+// Retorna a biblioteca do usuário junto com notas e resenhas vinculadas aos álbuns.
 export async function getUserLibrary() {
   try {
     const database = await initializeDatabase();
@@ -118,6 +122,7 @@ export async function getUserLibrary() {
 // ----------------------------------------------------
 // UPDATE (Álbum)
 // ----------------------------------------------------
+// Atualiza os dados de um álbum já existente.
 export async function updateAlbum(id, title, artist, year, cover) {
   try {
     const database = await initializeDatabase();
@@ -144,6 +149,7 @@ export async function updateAlbum(id, title, artist, year, cover) {
 // ----------------------------------------------------
 // DELETE (Álbum)
 // ----------------------------------------------------
+// Remove um álbum do banco pelo id.
 export async function deleteAlbum(id) {
   try {
     const database = await initializeDatabase();
@@ -159,6 +165,7 @@ export async function deleteAlbum(id) {
 // ----------------------------------------------------
 // AVALIAÇÕES (Adicionar / Modificar Nota)
 // ----------------------------------------------------
+// Insere ou atualiza a avaliação de um álbum, além do texto da resenha opcional.
 export async function rateAlbum(albumId, rating, review = '') {
   try {
     const database = await initializeDatabase();

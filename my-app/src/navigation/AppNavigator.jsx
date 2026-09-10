@@ -15,6 +15,7 @@ import AddAlbumScreen from '../screens/AddAlbumScreen';
 
 const Stack = createNativeStackNavigator();
 
+// Configura o navegador principal do app com todas as telas e opções de navegação.
 export default function AppNavigator() {
   return (
     <NavigationContainer>
