@@ -65,6 +65,7 @@ const PALETTE = {
 // COMPONENTE DE ÁLBUM
 // =====================================================
 
+// Card visual que representa um álbum em destaque na home, com capa, nome, artista e ano.
 function AlbumCard({ album, onPress }) {
   return (
     <TouchableOpacity
@@ -121,6 +122,7 @@ function AlbumCard({ album, onPress }) {
 // HOME
 // =====================================================
 
+// Tela principal da aplicação, onde os álbuns são exibidos e filtrados por busca.
 export default function HomeScreen({
   navigation,
 }) {
@@ -146,6 +148,7 @@ export default function HomeScreen({
   // CARREGAR ÁLBUNS DO SQLITE
   // =====================================================
 
+  // Busca os álbuns salvos no banco para atualizar a listagem da home.
   const loadAlbums = async () => {
 
     try {

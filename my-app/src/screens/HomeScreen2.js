@@ -27,6 +27,7 @@ import {
 /**
  * Paleta de Cores - Design System Aero & Frutiger
  */
+// Estrutura visual da aplicação para manter uma identidade visual consistente em toda a tela.
 const PALETTE = {
   azulAero: '#0096FF',
   azulAeroEscuro: '#0055A5',
@@ -104,6 +105,7 @@ const RECENT_REVIEWS = [
   },
 ];
 
+// Tela alternativa da home com layout mais visual e feed social de avaliações recentes.
 export default function HomeScreen({ navigation }) {
   const [fontsLoaded, fontError] = useFonts({
     Nunito_800ExtraBold,
@@ -116,6 +118,7 @@ export default function HomeScreen({ navigation }) {
   const [search, setSearch] = useState('');
   const [likedReviews, setLikedReviews] = useState({});
 
+  // Alterna o estado de curtida em um comentário/review do feed social.
   if (!fontsLoaded && !fontError) {
     return (
       <SafeAreaView style={styles.container}>

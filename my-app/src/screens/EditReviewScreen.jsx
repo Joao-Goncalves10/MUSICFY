@@ -28,6 +28,7 @@ const COLORS = {
   danger: '#FF3B6B',
 };
 
+// Tela de edição de uma avaliação existente. Permite alterar nota, texto e status.
 export default function EditReviewScreen({
   route,
   navigation,
@@ -49,7 +50,7 @@ export default function EditReviewScreen({
   const [status, setStatus] =
     useState(initialStatus);
 
-
+  // Atualiza a review no banco com os valores editados pelo usuário.
   async function handleUpdate() {
 
     await updateReview(
@@ -68,6 +69,7 @@ export default function EditReviewScreen({
   }
 
 
+  // Confirma a exclusão da avaliação antes de remover do banco.
   function handleDelete() {
 
     Alert.alert(

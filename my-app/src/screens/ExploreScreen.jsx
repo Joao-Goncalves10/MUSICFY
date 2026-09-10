@@ -28,6 +28,7 @@ const COLORS = {
   gray: '#64748B',
 };
 
+// Tela de exploração para buscar e navegar entre os álbuns cadastrados.
 export default function ExploreScreen({
   navigation,
 }) {
@@ -38,7 +39,7 @@ export default function ExploreScreen({
   const [search, setSearch] =
     useState('');
 
-
+  // Carrega a lista de álbuns salvos no banco para a busca.
   useEffect(() => {
 
     loadAlbums();
