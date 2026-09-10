@@ -27,11 +27,14 @@ const COLORS = {
 
 // Dados padrão de faixas caso o álbum no banco ainda não possua lista
 const DEFAULT_TRACKS = [
-  { id: '1', title: 'Faixa 1 - Introdução', duration: '2:15', rating: 5 },
-  { id: '2', title: 'Faixa 2 - Single Principal', duration: '3:40', rating: 4 },
-  { id: '3', title: 'Faixa 3 - Interlúdio', duration: '1:30', rating: 4 },
-  { id: '4', title: 'Faixa 4 - Faixa de Trabalho', duration: '3:12', rating: 5 },
-  { id: '5', title: 'Faixa 5 - Encerramento', duration: '4:05', rating: 3 },
+  { id: '1', title: 'Bad Romance', duration: '4:55', rating: 5 },
+  { id: '2', title: 'Alejandro', duration: '4:35', rating: 4 },
+  { id: '3', title: 'Monster', duration: '4:10', rating: 4 },
+  { id: '4', title: 'Speechless', duration: '4:31', rating: 3.5 },
+  { id: '5', title: 'Dance In The Dark', duration: '4:49', rating: 4 },
+  { id: '5', title: 'Telephone', duration: '3:41', rating: 5 },
+  { id: '5', title: 'So Happy I Could Die', duration: '3:55', rating: 3 },
+  { id: '5', title: 'Teeth', duration: '3:41', rating: 4 },
 ];
 
 export default function AlbumDetailsScreen({ route, navigation }) {
@@ -125,9 +128,17 @@ export default function AlbumDetailsScreen({ route, navigation }) {
 
           <Text style={styles.headerTitle}>Álbum</Text>
 
-          <TouchableOpacity onPress={handleDelete}>
-            <Ionicons name="trash-outline" size={23} color="#FF3B6B" />
-          </TouchableOpacity>
+          <View style={styles.headerActions}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('AddAlbum', { album })}
+              accessibilityLabel="Editar álbum"
+            >
+              <Ionicons name="create-outline" size={23} color={COLORS.blue} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleDelete} accessibilityLabel="Excluir álbum">
+              <Ionicons name="trash-outline" size={23} color="#FF3B6B" />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* CAPA */}
@@ -263,6 +274,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 18,
+  },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 18,
   },
   headerTitle: {
     fontSize: 18,
