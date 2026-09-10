@@ -1,14 +1,23 @@
 import * as SQLite from 'expo-sqlite';
 
+// Guarda a conexão com o banco de dados para reaproveitar a mesma instância em toda a app.
 let db = null;
 
+<<<<<<< HEAD
 // Inicializa o banco específico de reviews e cria a tabela caso ainda não exista.
+=======
+// Inicializa o banco e garante que a tabela 'reviews' exista.
+>>>>>>> 067ccc6371ec0a3fc8f159923afe6169d8970863
 async function initializeDatabase() {
+  // Se o banco já foi aberto antes, evita abrir outra conexão desnecessária.
   if (db) return db;
-  
+
   try {
+    // Abre/cria o arquivo do banco SQLite chamado 'musicfy.db'.
     db = await SQLite.openDatabaseAsync('musicfy.db');
-    
+
+    // Cria a tabela de avaliações somente se ela ainda não existir.
+    // Cada review guarda: id, album_id, nota, texto da avaliação, status e data de criação.
     await db.execAsync(`
       CREATE TABLE IF NOT EXISTS reviews (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,7 +36,11 @@ async function initializeDatabase() {
   }
 }
 
+<<<<<<< HEAD
 // Cria uma nova review vinculada a um álbum com nota, texto e status.
+=======
+// Cria uma nova avaliação no banco para um álbum específico.
+>>>>>>> 067ccc6371ec0a3fc8f159923afe6169d8970863
 export async function createReview(
   albumId,
   rating,
@@ -35,9 +48,12 @@ export async function createReview(
   status
 ) {
   try {
+    // Garante que a conexão com o banco esteja ativa antes de inserir os dados.
     const database = await initializeDatabase();
     if (!database) throw new Error('Database not initialized');
 
+    // Insere os dados na tabela 'reviews'.
+    // Os '?' evitam SQL injection e representam os valores em ordem.
     const result = await database.runAsync(
       `
       INSERT INTO reviews
@@ -50,6 +66,7 @@ export async function createReview(
       status
     );
 
+    // Retorna o id do registro criado para uso em outras telas.
     return result.lastInsertRowId;
   } catch (error) {
     console.error('Erro ao criar review:', error);
@@ -63,6 +80,7 @@ export async function getReviews() {
     const database = await initializeDatabase();
     if (!database) throw new Error('Database not initialized');
 
+    // Seleciona todos os registros da tabela e ordena pelos mais recentes primeiro.
     const reviews = await database.getAllAsync(
       `
       SELECT *
@@ -71,6 +89,7 @@ export async function getReviews() {
       `
     );
 
+    // Garante que sempre devolva um array, mesmo que não haja registros.
     return reviews || [];
   } catch (error) {
     console.error('Erro ao buscar reviews:', error);
@@ -113,6 +132,7 @@ export async function updateReview(
     const database = await initializeDatabase();
     if (!database) throw new Error('Database not initialized');
 
+    // Atualiza apenas a linha cujo id corresponde ao item que queremos alterar.
     await database.runAsync(
       `
       UPDATE reviews
@@ -140,6 +160,7 @@ export async function deleteReview(id) {
     const database = await initializeDatabase();
     if (!database) throw new Error('Database not initialized');
 
+    // Deleta a linha da tabela que tem o id informado.
     await database.runAsync(
       `
       DELETE FROM reviews

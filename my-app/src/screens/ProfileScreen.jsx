@@ -24,6 +24,7 @@ const COLORS = {
   gray: '#64748B',
 };
 
+// Tela do perfil do usuário: mostra dados pessoais, biblioteca e avaliações feitas.
 export default function ProfileScreen({ navigation }) {
   const [reviews, setReviews] = useState([]);
   const [albums, setAlbums] = useState([]);
@@ -36,6 +37,7 @@ export default function ProfileScreen({ navigation }) {
 
   // useEffect: recarrega o perfil, as avaliações e a biblioteca quando a tela volta ao foco.
   useEffect(() => {
+    // Toda vez que a tela ganha foco, recarrega os dados para refletir alterações recentes.
     const unsubscribe = navigation.addListener('focus', () => {
       loadUserProfile();
       loadReviews();

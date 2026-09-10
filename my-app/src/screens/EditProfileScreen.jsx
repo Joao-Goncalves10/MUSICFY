@@ -31,6 +31,7 @@ const AVATAR_OPTIONS = [
   'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=300&auto=format&fit=crop',
 ];
 
+// Tela para editar os dados do perfil do usuário, como nome, username, biografia e avatar.
 export default function EditProfileScreen({ route, navigation }) {
   const currentProfile = route.params?.user || {};
 
@@ -39,6 +40,7 @@ export default function EditProfileScreen({ route, navigation }) {
   const [bio, setBio] = useState(currentProfile.bio || 'música, café e caos ♫');
   const [avatar, setAvatar] = useState(currentProfile.avatar || AVATAR_OPTIONS[0]);
 
+  // Valida o formulário e salva o perfil no AsyncStorage para persistir no dispositivo.
   async function handleSave() {
     if (!name.trim() || !username.trim()) {
       Alert.alert('Atenção', 'O nome e o nome de usuário não podem ficar vazios.');

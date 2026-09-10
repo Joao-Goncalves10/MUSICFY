@@ -28,6 +28,7 @@ const COLORS = {
   gray: '#64748B',
 };
 
+// Tela de exploração para buscar e navegar entre os álbuns cadastrados.
 export default function ExploreScreen({
   navigation,
 }) {

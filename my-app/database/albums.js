@@ -1,18 +1,21 @@
 import * as SQLite from 'expo-sqlite';
 
+// Guarda a conexão do banco para reutilizar a mesma instância em toda a aplicação.
 let db = null;
 
 // Abre a conexão com o SQLite e cria as tabelas necessárias na primeira execução.
 export async function initializeDatabase() {
+  // Se o banco já foi aberto antes, reutiliza a conexão atual.
   if (db) return db;
 
   try {
+    // Abre/cria o arquivo do banco SQLite  
     db = await SQLite.openDatabaseAsync('musicfy.db');
 
-    // Activa chaves estrangeiras
+    // Ativa as chaves estrangeiras para manter a integridade dos dados.
     await db.execAsync('PRAGMA foreign_keys = ON;');
 
-    // Criar tabelas se não existirem
+    // Cria a tabela de álbuns e a tabela de avaliações se ainda não existirem.
     await db.execAsync(`
       CREATE TABLE IF NOT EXISTS albums (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,6 +51,7 @@ export async function createAlbum(title, artist, year, cover) {
     const database = await initializeDatabase();
     if (!database) throw new Error('Database not initialized');
 
+    // Insere os dados na tabela 'albums'.
     const result = await database.runAsync(
       `
       INSERT INTO albums (title, artist, year, cover)
@@ -59,6 +63,7 @@ export async function createAlbum(title, artist, year, cover) {
       cover
     );
 
+    // Retorna o id do álbum recém-criado para ser usado em outras telas.
     return result.lastInsertRowId;
   } catch (error) {
     console.error('Erro ao criar álbum:', error);
@@ -75,6 +80,7 @@ export async function getAlbums() {
     const database = await initializeDatabase();
     if (!database) return [];
 
+    // Seleciona todos os registros da tabela e ordena pelo mais recente primeiro.
     const albums = await database.getAllAsync(
       'SELECT * FROM albums ORDER BY id DESC;'
     );
@@ -95,6 +101,7 @@ export async function getUserLibrary() {
     const database = await initializeDatabase();
     if (!database) return [];
 
+    // Faz um INNER JOIN entre albums e ratings para trazer título + artista + nota + review.
     const library = await database.getAllAsync(
       `
       SELECT 
@@ -128,6 +135,7 @@ export async function updateAlbum(id, title, artist, year, cover) {
     const database = await initializeDatabase();
     if (!database) throw new Error('Database not initialized');
 
+    // Altera as informações do álbum que tem o id correspondente.
     await database.runAsync(
       `
       UPDATE albums
@@ -171,6 +179,7 @@ export async function rateAlbum(albumId, rating, review = '') {
     const database = await initializeDatabase();
     if (!database) throw new Error('Database not initialized');
 
+    // Se já existe avaliação para esse album_id, altera; se não existe, cria uma nova.
     await database.runAsync(
       `
       INSERT INTO ratings (album_id, rating, review, updated_at)

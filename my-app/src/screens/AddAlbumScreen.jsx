@@ -19,6 +19,8 @@ const COLORS = {
   white: '#FFFFFF',
 };
 
+// Tela usada para criar ou editar um álbum. Ela recebe um álbum opcional
+// via route.params para decidir se vai salvar como novo cadastro ou atualizar o existente.
 export default function AddAlbumScreen({ route, navigation }) {
   const album = route.params?.album;
   const isEditing = Boolean(album);
@@ -28,6 +30,7 @@ export default function AddAlbumScreen({ route, navigation }) {
   const [cover, setCover] = useState(album?.cover || '');
   const [saving, setSaving] = useState(false);
 
+  // Valida os campos do formulário e grava o álbum no banco.
   async function handleSave() {
     const normalizedTitle = title.trim();
     const normalizedArtist = artist.trim();

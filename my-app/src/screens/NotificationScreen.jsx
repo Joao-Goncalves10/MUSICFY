@@ -21,6 +21,7 @@ const COLORS = {
   gray: '#64748B',
 };
 
+// Lista estática de notificações exibidas na tela de alertas da aplicação.
 const notifications = [
 
   {
@@ -54,6 +55,7 @@ const notifications = [
 ];
 
 
+// Tela que mostra as notificações do usuário, como curtidas, comentários e seguidores.
 export default function NotificationsScreen({
   navigation,
 }) {
