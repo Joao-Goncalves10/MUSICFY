@@ -25,7 +25,7 @@ const COLORS = {
   gray: '#64748B',
 };
 
-// Dados padrão de faixas caso o álbum no banco ainda não possua lista
+// Lista padrão de músicas usada quando o álbum ainda não tem faixa cadastrada.
 const DEFAULT_TRACKS = [
   { id: '1', title: 'Bad Romance', duration: '4:55', rating: 5 },
   { id: '2', title: 'Alejandro', duration: '4:35', rating: 4 },
@@ -37,6 +37,8 @@ const DEFAULT_TRACKS = [
   { id: '5', title: 'Teeth', duration: '3:41', rating: 4 },
 ];
 
+// Tela que mostra o detalhe de um álbum específico, incluindo capa, informações,
+// nota média das faixas e opções de edição/exclusão.
 export default function AlbumDetailsScreen({ route, navigation }) {
   const { id } = route.params;
 

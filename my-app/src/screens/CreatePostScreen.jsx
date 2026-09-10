@@ -25,11 +25,12 @@ const COLORS = {
   lightGray: '#F0F4F8',
 };
 
+// Tela responsável por criar uma publicação conectando texto, álbum e avaliação.
 export default function CreatePostScreen({ navigation }) {
   const [postText, setPostText] = useState('');
   const [albums, setAlbums] = useState([]);
-  
-  // Seleções do Usuário
+
+  // Guarda o álbum escolhido e a nota atribuída antes de publicar.
   const [selectedAlbum, setSelectedAlbum] = useState(null);
   const [rating, setRating] = useState(0);
 

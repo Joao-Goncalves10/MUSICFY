@@ -24,6 +24,7 @@ const COLORS = {
   gray: '#64748B',
 };
 
+// Tela do perfil do usuário: mostra dados pessoais, biblioteca e avaliações feitas.
 export default function ProfileScreen({ navigation }) {
   const [reviews, setReviews] = useState([]);
   const [albums, setAlbums] = useState([]);
@@ -35,6 +36,7 @@ export default function ProfileScreen({ navigation }) {
   });
 
   useEffect(() => {
+    // Toda vez que a tela ganha foco, recarrega os dados para refletir alterações recentes.
     const unsubscribe = navigation.addListener('focus', () => {
       loadUserProfile();
       loadReviews();
@@ -43,6 +45,7 @@ export default function ProfileScreen({ navigation }) {
     return unsubscribe;
   }, [navigation]);
 
+  // Carrega as informações do perfil salvas no AsyncStorage.
   async function loadUserProfile() {
     try {
       const savedUser = await AsyncStorage.getItem('@user_profile');
@@ -54,6 +57,7 @@ export default function ProfileScreen({ navigation }) {
     }
   }
 
+  // Busca as avaliações do usuário no banco para listar no perfil.
   async function loadReviews() {
     try {
       const data = await getReviews();
@@ -64,6 +68,7 @@ export default function ProfileScreen({ navigation }) {
     }
   }
 
+  // Busca os álbuns do usuário para exibir a biblioteca pessoal.
   async function loadAlbums() {
     try {
       const data = await getAlbums();

@@ -26,6 +26,7 @@ const COLORS = {
   gray: '#64748B',
 };
 
+// Tela para publicar uma nova avaliação de um álbum com nota, texto e status.
 export default function ReviewScreen({
   route,
   navigation,
@@ -39,7 +40,7 @@ export default function ReviewScreen({
 
   const [status, setStatus] = useState('ouvido');
 
-
+  // Valida a nota e salva a avaliação no banco com o id do álbum atual.
   async function handleSubmit() {
 
     if (rating === 0) {
